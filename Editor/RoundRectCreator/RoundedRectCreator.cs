@@ -104,8 +104,21 @@ namespace Editor.Custom
             GUI.enabled = radius > 0 && saveDirectory != string.Empty;
             if (GUILayout.Button("Create"))
             {
+                var lastStagePrefab = PrefabStageUtility.GetCurrentPrefabStage();
+                string lastAssetPath = null;
+                
+                if (lastStagePrefab != null)
+                {
+                    lastAssetPath = lastStagePrefab.assetPath;
+                }
+                
                 CreateRectImage(false);
                 EditorCustomUtility.ClearTextures();
+                
+                if (!string.IsNullOrEmpty(lastAssetPath))
+                {
+                    PrefabStageUtility.OpenPrefab(lastAssetPath);
+                }
             }
 
             GUI.enabled = true;
