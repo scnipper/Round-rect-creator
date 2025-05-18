@@ -304,7 +304,18 @@ namespace Editor.Custom
         {
             float borderNew = radius + 1;
             var importer = AssetImporter.GetAtPath(saveImagePath) as TextureImporter;
-            importer.spriteBorder = new Vector4(borderNew, borderNew, borderNew, borderNew);
+            
+            var textureImporterSettings = new TextureImporterSettings();
+            importer.ReadTextureSettings(textureImporterSettings);
+
+            textureImporterSettings.spriteExtrude = 0;
+            textureImporterSettings.textureType = TextureImporterType.Sprite;
+            textureImporterSettings.spriteBorder = new Vector4(borderNew, borderNew, borderNew, borderNew);
+            textureImporterSettings.spriteMode = (int)SpriteImportMode.Single;
+            textureImporterSettings.spriteMeshType = SpriteMeshType.FullRect;
+            textureImporterSettings.spriteGenerateFallbackPhysicsShape = false;
+            importer.SetTextureSettings(textureImporterSettings);
+            
             importer.SaveAndReimport();
             AssetDatabase.Refresh();
         }
