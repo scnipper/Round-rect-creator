@@ -240,14 +240,49 @@ namespace Editor.Custom
 
             string saveImagePath = "";
 
+
+            string nameFile = $"round_{radius}";
+            
             if (widthLine > 0)
             {
-                saveImagePath = Path.Combine(saveDirectory, $"round_{radius}_line_{widthLine}.png");
+                nameFile = $"{nameFile}_line_{widthLine}";
             }
-            else
+
+            int countCorners = 0;
+
+            string cornerName = "";
+            
+            if (leftTopCorner)
             {
-                saveImagePath = Path.Combine(saveDirectory, $"round_{radius}.png");
+                cornerName = $"{cornerName}_left_top";
+                countCorners++;
             }
+            
+            if (rightTopCorner)
+            {
+                cornerName = $"{cornerName}_right_top";
+                countCorners++;
+            }
+            
+            if (leftBottomCorner)
+            {
+                cornerName = $"{cornerName}_left_bottom";
+                countCorners++;
+            }
+            if (rightBottomCorner)
+            {
+                cornerName = $"{cornerName}_right_bottom";
+                countCorners++;
+
+            }
+
+            if (countCorners < 4)
+            {
+                nameFile = $"{nameFile}{cornerName}";
+            }
+            
+            saveImagePath = Path.Combine(saveDirectory, $"{nameFile}.png");
+
 
             File.WriteAllBytes(saveImagePath, pngBytes);
             EditorSceneManager.CloseScene(tempScene,true);
