@@ -81,6 +81,7 @@ namespace Editor.Custom
                 PrepareForPreview();
             }
 
+            EditorGUILayout.BeginHorizontal();
             EditorGUI.BeginChangeCheck();
             saveDirectory = EditorGUILayout.TextField(new GUIContent("Save directory"), saveDirectory);
 
@@ -88,6 +89,15 @@ namespace Editor.Custom
             {
                 EditorPrefs.SetString(PathSaveKey, saveDirectory);
             }
+            
+            if (GUILayout.Button("Pick"))
+            {
+                saveDirectory = EditorUtility.OpenFolderPanel("Select directory", saveDirectory, "");
+                saveDirectory = Path.Combine("Assets",Path.GetRelativePath("Assets",saveDirectory));
+                EditorPrefs.SetString(PathSaveKey, saveDirectory);
+            }
+            
+            EditorGUILayout.EndHorizontal();
 
 
 
